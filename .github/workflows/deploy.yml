@@ -9,8 +9,11 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (full history, allow push)
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # allow the action to push using GITHUB_TOKEN
+          fetch-depth: 0             # full history (needed for some pushes)
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -34,5 +37,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          # allow force push if necessary:
-          # force_orphan: false
